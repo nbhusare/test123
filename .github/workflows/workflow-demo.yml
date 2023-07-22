@@ -1,0 +1,23 @@
+# The name of your workflow.
+# GitHub displays the names of your workflows on your repository's "Actions" tab.
+name: Testing GitHub Actions Workflow
+
+# The name for workflow runs generated from the workflow.
+# GitHub displays the workflow run name in the list of workflow runs on your repository's "Actions" tab.
+run-name: ${{ github.actor }} is testing out GitHub Actions Workflow🚀
+
+# Define which events can cause the workflow to run.
+on: push
+
+jobs:
+    Explore-GitHub-Actoins-Workflow:
+      runs-on: ubuntu-latest
+      steps:
+        - name: Source checkout
+          uses: actions/checkout@v3
+
+        - name: Set up JDK 17
+          uses: actions/setup-java@v3
+          with:
+            java-version: '17'
+            distribution: 'temurin'
