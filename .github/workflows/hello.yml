@@ -1,0 +1,30 @@
+name: Hello Workflow
+
+run-name: Running Hello World Workflow
+
+on:
+  # Run the job when a commit is pushed to the main branch
+  push:
+    branches:
+      - 'main'
+
+  # Run the job when a PR targeting the main branch is created.
+  pull_request:
+    branches:
+      - 'main'
+
+jobs:
+    # Specifying the Job Id
+    Print-Hello-Job:
+      name: Hello World print job!
+
+      # Setting the runner env. in which the job is run.
+      runs-on: ubuntu-latest
+
+
+      steps:
+        - name: Print a greeting
+          run: echo Hello, "${{ github.actor }}"
+
+        - name: Print job status
+          run: echo "🍏 This job's status is ${{ job.status }}."
