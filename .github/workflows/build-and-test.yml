@@ -1,6 +1,5 @@
 name: Build and Test Workflow
-
-run-nam: Running - Build and Test Workflow
+run-name: Running - Build and Test Workflow 123
 
 on:
     pull_request:
@@ -8,23 +7,22 @@ on:
         - 'main'
 
 jobs:
-  Build and Test Job:
-    name: Build and Test Job
-  runs-on: ubuntu-latest
-  steps:
-    - name: Source checkout
-      uses: actions/checkout@v3
-    - name: Setup Java 17
-      uses: actions/setup-java@v3
-      with:
-        java-version: '17'
-        distribution: 'temurin'
-    - name: Validate Gradle wrapper
-      uses: gradle/wrapper-validation-action@v1
+  Build-and-Test-Job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Source checkout
+        uses: actions/checkout@v3
+      - name: Setup Java 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+      - name: Validate Gradle wrapper
+        uses: gradle/wrapper-validation-action@v1
 
-    - name: Setup Gradle
-      uses: gradle/gradle-build-action@v2
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
 
-    - name: Execute Gradle build
-      run: ./gradlew build
+      - name: Execute Gradle build
+        run: ./gradlew build
 
