@@ -1,14 +1,17 @@
 name: Build and Test Workflow
-run-name: Running - Build and Test Workflow
+run-name: Running - Build and Test Workflow 123
 
 on:
-    pull_request:
-      branches:
-        - 'main'
+  pull_request:
+    branches:
+      - 'main'
 
 jobs:
   Build-and-Test-Job:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
     steps:
       - name: Source checkout
         uses: actions/checkout@v3
@@ -25,4 +28,12 @@ jobs:
 
       - name: Execute Gradle build
         run: ./gradlew build
+
+      - name: Publish package
+        uses: gradle/gradle-build-action@v2
+        with:
+          arguments: publish
+        env:
+          GITHUB_USERNAME: ${{ secrets.GITHUB_ACTOR }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
