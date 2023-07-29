@@ -1,0 +1,45 @@
+name: Release Workflow
+run-name: Running the Release workflow
+
+on:
+  release:
+    types:
+      - created
+
+jobs:
+  Build-and-Test-Job:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Print release number
+        run: |
+          release_json=$(curl https://api.github.com/repos/nbhusare/test123/releases)          
+          echo Publishing Release , "${{ release_json }}"
+
+      - name: Source checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Java 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+      - name: Validate Gradle wrapper
+        uses: gradle/wrapper-validation-action@v1
+
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
+
+      - name: Execute Gradle build
+        run: ./gradlew build
+
+      - name: Publish package
+        uses: gradle/gradle-build-action@v2
+        with:
+          arguments: publish
+        env:
+          GITHUB_USERNAME: ${{ secrets.GITHUB_ACTOR }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
